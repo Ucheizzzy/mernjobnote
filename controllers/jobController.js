@@ -6,6 +6,7 @@ let jobs = [
 ]
 
 export const getAllJobs = async (req, res) => {
+  //console.log(job)
   res.status(200).json({ jobs })
 }
 
@@ -20,7 +21,7 @@ export const createJob = async (req, res) => {
   const id = nanoid()
   const job = { id, company, position }
   jobs.push(job)
-  res.status(200).json({ job })
+  res.status(201).json({ job })
 }
 
 export const getSingleJob = async (req, res) => {
