@@ -1,3 +1,4 @@
+import 'express-async-errors'
 //to access ,env variables
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -7,6 +8,9 @@ const app = express()
 import morgan from 'morgan'
 import jobRouter from './routes/jobRouter.js'
 import mongoose from 'mongoose'
+//middleware
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
+import { body, validationResult } from 'express-validator'
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -17,10 +21,22 @@ app.use(express.json())
 //routes
 app.use('/api/v1/jobs', jobRouter)
 
-app.get('/', (req, res) => {
-  // console.log(req)
-  res.json({ message: 'data received', data: req.body })
-})
+app.post(
+  '/api/v1/test',
+  [body('name').notEmpty().withMessage('name is required here')],
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      const errorMessages = errors.array().map((error) => error.msg)
+      return res.status(400).json({ errors: errorMessages })
+    }
+    next()
+  },
+  (req, res) => {
+    const { name } = req.body
+    res.json({ msg: `Hello ${name}` })
+  }
+)
 
 //not found middleware
 app.use('*', (req, res) => {
@@ -28,10 +44,7 @@ app.use('*', (req, res) => {
 })
 
 //error handler middleware
-app.use((err, req, res, next) => {
-  console.log(err)
-  res.status(500).json({ msg: 'something went wrong' })
-})
+app.use(errorHandlerMiddleware)
 
 const port = process.env.PORT || 3000
 try {
