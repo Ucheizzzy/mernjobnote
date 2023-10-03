@@ -10,7 +10,7 @@ import jobRouter from './routes/jobRouter.js'
 import mongoose from 'mongoose'
 //middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
-import { body, validationResult } from 'express-validator'
+import { validateTest } from './middleware/validationMiddleware.js'
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -21,22 +21,10 @@ app.use(express.json())
 //routes
 app.use('/api/v1/jobs', jobRouter)
 
-app.post(
-  '/api/v1/test',
-  [body('name').notEmpty().withMessage('name is required here')],
-  (req, res, next) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      const errorMessages = errors.array().map((error) => error.msg)
-      return res.status(400).json({ errors: errorMessages })
-    }
-    next()
-  },
-  (req, res) => {
-    const { name } = req.body
-    res.json({ msg: `Hello ${name}` })
-  }
-)
+app.post('/api/v1/test', validateTest, (req, res) => {
+  const { name } = req.body
+  res.json({ msg: `Hello ${name}` })
+})
 
 //not found middleware
 app.use('*', (req, res) => {
