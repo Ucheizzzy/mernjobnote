@@ -12,15 +12,17 @@ import mongoose from 'mongoose'
 //middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
 import { validateTest } from './middleware/validationMiddleware.js'
+import { authenticatedUser } from './middleware/authMiddleware.js'
+import cookieParser from 'cookie-parser'
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 //middleware for json
 app.use(express.json())
-
+app.use(cookieParser())
 //routes
-app.use('/api/v1/jobs', jobRouter)
+app.use('/api/v1/jobs', authenticatedUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
 
 app.post('/api/v1/test', validateTest, (req, res) => {

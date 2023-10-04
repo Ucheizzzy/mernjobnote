@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js'
+import User from './userModel.js'
 const JobSchema = new mongoose.Schema(
   {
     company: {
@@ -21,6 +22,10 @@ const JobSchema = new mongoose.Schema(
     jobLocation: {
       type: String,
       default: 'my-city',
+    },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: User,
     },
   },
   { timestamps: true }
