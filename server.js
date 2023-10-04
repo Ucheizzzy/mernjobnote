@@ -7,6 +7,7 @@ const app = express()
 //morgan is used to give detailed request made on the server
 import morgan from 'morgan'
 import jobRouter from './routes/jobRouter.js'
+import authRouter from './routes/authRouter.js'
 import mongoose from 'mongoose'
 //middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
@@ -20,6 +21,7 @@ app.use(express.json())
 
 //routes
 app.use('/api/v1/jobs', jobRouter)
+app.use('/api/v1/auth', authRouter)
 
 app.post('/api/v1/test', validateTest, (req, res) => {
   const { name } = req.body
