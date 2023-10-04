@@ -23,6 +23,7 @@ export const login = async (req, res) => {
   // if anyone of them is false throw the same error
   if (!isValidUser) throw new UnauthenticatedError('invalid email or password')
 
+  // setting the payload of userId and role
   const token = createJWT({
     userId: user._id,
     role: user.role,
