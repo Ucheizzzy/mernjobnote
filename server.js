@@ -26,7 +26,7 @@ app.use('/api/v1/jobs', authenticatedUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', authenticatedUser, userRouter)
 
-app.post('/api/v1/test', (req, res) => {
+app.get('/api/v1/test', (req, res) => {
   res.json({ msg: `testing this route` })
 })
 
