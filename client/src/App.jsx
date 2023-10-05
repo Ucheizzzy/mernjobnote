@@ -13,6 +13,8 @@ import {
   Admin,
 } from './pages'
 
+import { action as registerAction } from './pages/Register'
+
 export const checkDefaultTheme = () => {
   const preferredTheme = window.matchMedia(
     '(prefers-color-scheme:dark)'
@@ -36,6 +38,7 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
+        action: registerAction,
       },
       {
         path: 'login',
