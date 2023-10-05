@@ -1,4 +1,7 @@
-import { UnauthenticatedError } from '../errors/customErrors.js'
+import {
+  UnauthenticatedError,
+  UnauthorizedError,
+} from '../errors/customErrors.js'
 import { verifyJWT } from '../utils/tokenUtils.js'
 
 export const authenticatedUser = (req, res, next) => {
@@ -14,5 +17,14 @@ export const authenticatedUser = (req, res, next) => {
     next()
   } catch (error) {
     throw new UnauthenticatedError('authentication invalid')
+  }
+}
+
+export const authorizePermission = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      throw new UnauthorizedError('You are not authorized to see this')
+    }
+    next()
   }
 }

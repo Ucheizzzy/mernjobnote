@@ -8,10 +8,10 @@ const app = express()
 import morgan from 'morgan'
 import jobRouter from './routes/jobRouter.js'
 import authRouter from './routes/authRouter.js'
+import userRouter from './routes/userRouter.js'
 import mongoose from 'mongoose'
 //middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
-import { validateTest } from './middleware/validationMiddleware.js'
 import { authenticatedUser } from './middleware/authMiddleware.js'
 import cookieParser from 'cookie-parser'
 
@@ -24,10 +24,10 @@ app.use(cookieParser())
 //routes
 app.use('/api/v1/jobs', authenticatedUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/users', authenticatedUser, userRouter)
 
-app.post('/api/v1/test', validateTest, (req, res) => {
-  const { name } = req.body
-  res.json({ msg: `Hello ${name}` })
+app.post('/api/v1/test', (req, res) => {
+  res.json({ msg: `testing this route` })
 })
 
 //not found middleware

@@ -94,3 +94,20 @@ export const validateLoginInput = withValidationErrors([
     .withMessage('please enter a valid email'),
   body('password').notEmpty().withMessage('password cannot be empty'),
 ])
+
+export const validateUpdateUserInput = withValidationErrors([
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email')
+    .isEmail()
+    .withMessage('Please enter a valid email')
+    .notEmpty()
+    .withMessage('email is required')
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ email })
+      if (user && user._id.toString() !== req.user.userId) {
+        throw new Error('email already exits')
+      }
+    }),
+  body('lastName').notEmpty().withMessage('last name is required'),
+  body('location').notEmpty().withMessage('location is required'),
+])
