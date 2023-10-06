@@ -316,7 +316,7 @@ button:disabled {
 }
 
 /* BUTTONS AND BADGES */
-.pending {
+.applied {
   background: #fef3c7;
   color: #f59e0b;
 }
@@ -328,4 +328,8 @@ button:disabled {
 .declined {
   background: #ffeeee;
   color: #d66a6a;
+}
+.accepted {
+  background: #ffeeee;
+  color: #15f18b;
 }
