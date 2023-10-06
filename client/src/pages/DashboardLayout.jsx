@@ -1,13 +1,25 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/dashboard'
 import { BigSlider, Navbar, SmallSlider } from '../components'
 import { createContext, useContext, useState } from 'react'
-import avatar from '../assets/images/avatar-1.jpg'
-
 import { checkDefaultTheme } from '../App'
+import customFetch from '../utils/customFetch'
+import { toast } from 'react-toastify'
+
+export const loader = async () => {
+  try {
+    const { data } = await customFetch.get('/users/current-user')
+    return data
+  } catch (error) {
+    return redirect('/')
+  }
+}
+
 const DashboardContext = createContext()
 const DashboardLayout = () => {
-  const user = { name: 'uche', avatar: avatar }
+  const navigate = useNavigate()
+  const { user } = useLoaderData()
+  // console.log(user.name)
 
   const [showSidebar, setShowSidebar] = useState(false)
   const [isDarkTheme, setDarkTheme] = useState(checkDefaultTheme())
@@ -22,8 +34,10 @@ const DashboardLayout = () => {
     localStorage.setItem('darkTheme', newDarkTheme)
   }
 
-  const logoutUser = () => {
-    console.log('user logged out')
+  const logoutUser = async () => {
+    navigate('/')
+    await customFetch.get('/auth/logout')
+    toast.success(`logging out.. see you soon ${user.name}`)
   }
   return (
     <DashboardContext.Provider
@@ -43,7 +57,7 @@ const DashboardLayout = () => {
           <div>
             <Navbar />
             <div className='dashboard-page'>
-              <Outlet />
+              <Outlet context={{ user }} />
             </div>
           </div>
         </main>
