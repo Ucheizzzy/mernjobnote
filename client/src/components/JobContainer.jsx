@@ -1,7 +1,9 @@
+import { useAllJobContext } from '../pages/AllJobs'
+
 const JobContainer = () => {
-  return (
-    <div>JobContainer</div>
-  )
+  const { data } = useAllJobContext()
+  const { jobs } = data
+  return <div>JobContainer</div>
 }
 
 export default JobContainer
