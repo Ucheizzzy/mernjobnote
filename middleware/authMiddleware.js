@@ -33,6 +33,9 @@ export const authorizePermission = (...roles) => {
 
 export const checkFortTestUser = (req, res, next) => {
   if (req.user.testUser) {
-    throw new BadRequestError('Testometer!! you are read only.')
+    throw new BadRequestError(
+      'Testometer!! you are read only. Register and login'
+    )
   }
+  next()
 }
