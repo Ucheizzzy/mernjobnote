@@ -11,12 +11,16 @@ import {
   validateJobInput,
   validateIdParam,
 } from '../middleware/validationMiddleware.js'
+import { checkFortTestUser } from '../middleware/authMiddleware.js'
 
-router.route('/').get(getAllJobs).post(validateJobInput, createJob)
+router
+  .route('/')
+  .get(getAllJobs)
+  .post(checkFortTestUser, validateJobInput, createJob)
 router
   .route('/:id')
   .get(validateIdParam, getSingleJob)
-  .patch(validateJobInput, validateIdParam, updateJob)
-  .delete(validateIdParam, deleteJob)
+  .patch(checkFortTestUser, validateJobInput, validateIdParam, updateJob)
+  .delete(checkFortTestUser, validateIdParam, deleteJob)
 
 export default router

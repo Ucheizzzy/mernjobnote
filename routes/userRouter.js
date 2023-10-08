@@ -6,7 +6,10 @@ import {
   updateUser,
 } from '../controllers/userController.js'
 import { validateUpdateUserInput } from '../middleware/validationMiddleware.js'
-import { authorizePermission } from '../middleware/authMiddleware.js'
+import {
+  authorizePermission,
+  checkFortTestUser,
+} from '../middleware/authMiddleware.js'
 import upload from '../middleware/multerMiddleware.js'
 router.get('/current-user', getCurrentUser)
 router.get(
@@ -17,6 +20,7 @@ router.get(
 router.patch(
   '/update-user',
   upload.single('avatar'),
+  checkFortTestUser,
   validateUpdateUserInput,
   updateUser
 )

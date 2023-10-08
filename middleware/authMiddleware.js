@@ -1,4 +1,5 @@
 import {
+  BadRequestError,
   UnauthenticatedError,
   UnauthorizedError,
 } from '../errors/customErrors.js'
@@ -12,8 +13,9 @@ export const authenticatedUser = (req, res, next) => {
   try {
     // destructure the payload
     const { userId, role } = verifyJWT(token)
+    const testUser = userId === '6522d0d7dfde118349146410'
     // assign this to the user request
-    req.user = { userId, role }
+    req.user = { userId, role, testUser }
     next()
   } catch (error) {
     throw new UnauthenticatedError('authentication invalid')
@@ -26,5 +28,11 @@ export const authorizePermission = (...roles) => {
       throw new UnauthorizedError('You are not authorized to see this')
     }
     next()
+  }
+}
+
+export const checkFortTestUser = (req, res, next) => {
+  if (req.user.testUser) {
+    throw new BadRequestError('Testometer!! you are read only.')
   }
 }
