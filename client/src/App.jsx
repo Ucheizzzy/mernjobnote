@@ -21,6 +21,8 @@ import { action as addJobAction } from './pages/AddJob'
 import { loader as allJobsLoader } from './pages/AllJobs'
 import { loader as editJobLoader } from './pages/EditJob'
 import { action as editJobAction } from './pages/EditJob'
+import { action as deleteJobAction } from './pages/DeleteJob'
+
 export const checkDefaultTheme = () => {
   const preferredTheme = window.matchMedia(
     '(prefers-color-scheme:dark)'
@@ -83,6 +85,10 @@ const router = createBrowserRouter([
             element: <EditJob />,
             loader: editJobLoader,
             action: editJobAction,
+          },
+          {
+            path: 'delete-job/:id',
+            action: deleteJobAction,
           },
         ],
       },
