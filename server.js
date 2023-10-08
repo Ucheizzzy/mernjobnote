@@ -14,7 +14,7 @@ import mongoose from 'mongoose'
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js'
 import { authenticatedUser } from './middleware/authMiddleware.js'
 import cookieParser from 'cookie-parser'
-
+import cloudinary from 'cloudinary'
 // public
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -26,6 +26,12 @@ if (process.env.NODE_ENV === 'development') {
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 app.use(express.static(path.resolve(__dirname, './public')))
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+})
 
 //middleware for json
 app.use(express.json())
