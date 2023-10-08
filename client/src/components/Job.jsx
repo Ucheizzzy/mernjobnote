@@ -35,7 +35,7 @@ const Job = ({
           <Link to={`../edit-job/${_id}`} className='btn edit-btn'>
             Edit
           </Link>
-          <Form>
+          <Form method="post">
             <button className='btn btn-delete' type='submit'>
               Delete
             </button>
