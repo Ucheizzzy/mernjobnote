@@ -1,6 +1,7 @@
 import Job from '../models/jobModel.js'
 import { StatusCodes } from 'http-status-codes'
-
+import mongoose from 'mongoose'
+import day from 'dayjs'
 export const getAllJobs = async (req, res) => {
   console.log(req.user)
   const jobs = await Job.find({ createdBy: req.user.userId })
@@ -35,4 +36,21 @@ export const deleteJob = async (req, res) => {
   const { id } = req.params
   const removedJob = await Job.findByIdAndDelete(id)
   res.status(StatusCodes.OK).json({ msg: 'job deleted', removedJob })
+}
+
+export const showStats = async (req, res) => {
+  let stats = await Job.aggregate([])
+
+  const defaultStats = {
+    applied: 22,
+    interview: 11,
+    declined: 4,
+    accepted: 4,
+  }
+  let monthlyApplications = [
+    { date: 'Aug 23', count: 12 },
+    { date: 'Sep 23', count: 9 },
+    { date: 'Oct 23', count: 5 },
+  ]
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications })
 }
