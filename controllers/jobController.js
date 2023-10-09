@@ -82,10 +82,6 @@ export const showStats = async (req, res) => {
       return { date, count }
     })
     .reverse()
-  // let monthlyApplications = [
-  //   { date: 'Aug 23', count: 12 },
-  //   { date: 'Sep 23', count: 9 },
-  //   { date: 'Oct 23', count: 5 },
-  // ]
+
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications })
 }
