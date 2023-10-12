@@ -19,21 +19,18 @@ import cloudinary from 'cloudinary'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import path from 'path'
-
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
-}
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-app.use(express.static(path.resolve(__dirname, './client/dist')))
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 })
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
+app.use(express.static(path.resolve(__dirname, './client/dist')))
 //middleware for json
 app.use(express.json())
 app.use(cookieParser())
