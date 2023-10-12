@@ -8,7 +8,6 @@ import {
 import Wrapper from '../assets/wrappers/Dashboard'
 import { BigSlider, Loading, Navbar, SmallSlider } from '../components'
 import { createContext, useContext, useState } from 'react'
-import { checkDefaultTheme } from '../App'
 import customFetch from '../utils/customFetch'
 import { toast } from 'react-toastify'
 
@@ -22,17 +21,17 @@ export const loader = async () => {
 }
 
 const DashboardContext = createContext()
-const DashboardLayout = () => {
+const DashboardLayout = ({ isDarkThemeEnabled }) => {
   const navigate = useNavigate()
   const navigation = useNavigation()
 
   const { user } = useLoaderData()
+  // console.log(user.name)
 
   const [showSidebar, setShowSidebar] = useState(false)
-  const [isDarkTheme, setDarkTheme] = useState(checkDefaultTheme())
+  const [isDarkTheme, setDarkTheme] = useState(isDarkThemeEnabled)
 
   const isPageLoading = navigation.state === 'loading'
-
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar)
   }

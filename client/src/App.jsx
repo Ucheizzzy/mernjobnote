@@ -34,7 +34,7 @@ export const checkDefaultTheme = () => {
   document.body.classList.toggle('dark-theme', isDarkTheme)
   return isDarkTheme || preferredTheme
 }
-checkDefaultTheme()
+const isDarkThemeEnabled = checkDefaultTheme()
 
 const router = createBrowserRouter([
   {
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <DashboardLayout />,
+        element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
         loader: dashboardLoader,
         children: [
           {
