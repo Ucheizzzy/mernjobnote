@@ -25,6 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
 app.use(express.static(path.resolve(__dirname, './public')))
 
 cloudinary.config({
@@ -43,6 +44,10 @@ app.use('/api/v1/users', authenticatedUser, userRouter)
 
 app.get('/api/v1/test', (req, res) => {
   res.json({ msg: `testing this route` })
+})
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './public', 'index.html'))
 })
 
 //not found middleware
