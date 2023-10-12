@@ -5,7 +5,7 @@ import {
   useNavigate,
   useNavigation,
 } from 'react-router-dom'
-import Wrapper from '../assets/wrappers/dashboard'
+import Wrapper from '../assets/wrappers/Dashboard'
 import { BigSlider, Loading, Navbar, SmallSlider } from '../components'
 import { createContext, useContext, useState } from 'react'
 import { checkDefaultTheme } from '../App'
