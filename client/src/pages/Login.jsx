@@ -37,8 +37,8 @@ const Login = () => {
         <h1 className='logo'>JOBNOTE</h1>
         <h4>Login</h4>
 
-        <FormRow type='email' name='email' defaultValue='uche@gmail.com' />
-        <FormRow type='password' name='password' defaultValue='secret' />
+        <FormRow type='email' name='email' />
+        <FormRow type='password' name='password' />
 
         <SubmitBtn />
 
