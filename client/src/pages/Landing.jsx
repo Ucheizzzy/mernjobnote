@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/LandingPage'
 import main from '../assets/images/joblane.svg'
+
 const Landing = () => {
   return (
     <Wrapper>
