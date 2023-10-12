@@ -25,6 +25,7 @@ const DashboardContext = createContext()
 const DashboardLayout = () => {
   const navigate = useNavigate()
   const navigation = useNavigation()
+
   const { user } = useLoaderData()
   // console.log(user.name)
 
