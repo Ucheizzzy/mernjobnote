@@ -4,18 +4,30 @@ import { toast } from 'react-toastify'
 import Wrapper from '../assets/wrappers/StatsContainer'
 import { StatItem } from '../components'
 import { FaSuitcaseRolling, FaCalendarCheck } from 'react-icons/fa'
+import { useQuery } from '@tanstack/react-query'
 
-export const loader = async () => {
-  try {
+const adminQuery = {
+  queryKey: ['admin'],
+  queryFn: async () => {
     const { data } = await customFetch.get('/users/admin/app-stats')
+
     return data
+  },
+}
+
+export const loader = (queryClient) => async () => {
+  try {
+    return await queryClient.ensureQueryData(adminQuery)
   } catch (error) {
-    toast.error(error?.response?.data?.msg)
-    return redirect('dashboard')
+    return toast.error(error?.response?.data?.msg)
   }
 }
 const Admin = () => {
-  const { users, jobs } = useLoaderData()
+  // const { users, jobs } = useLoaderData()
+  const {
+    data: { users, jobs },
+  } = useQuery(adminQuery)
+
   return (
     <Wrapper>
       <StatItem
