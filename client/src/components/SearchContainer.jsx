@@ -44,7 +44,8 @@ const SearchContainer = () => {
           />
           <FormRowSelect
             labelText='job type'
-            name={jobType}
+            name='jobType'
+            defaultValue={jobType}
             list={['all', ...Object.values(JOB_TYPE)]}
             onChange={(e) => submit(e.currentTarget.form)}
           />

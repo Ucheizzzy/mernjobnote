@@ -19,6 +19,10 @@ import cloudinary from 'cloudinary'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import path from 'path'
+// security
+import helmet from 'helmet'
+import mongoSanitize from 'express-mongo-sanitize'
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -31,17 +35,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.static(path.resolve(__dirname, './client/dist')))
-//middleware for json
 app.use(express.json())
 app.use(cookieParser())
+app.use(helmet())
+app.use(mongoSanitize())
 //routes
 app.use('/api/v1/jobs', authenticatedUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', authenticatedUser, userRouter)
-
-app.get('/api/v1/test', (req, res) => {
-  res.json({ msg: `testing this route` })
-})
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))

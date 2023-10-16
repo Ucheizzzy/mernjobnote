@@ -4,34 +4,53 @@ import customFetch from '../utils/customFetch'
 import { Form, redirect, useLoaderData } from 'react-router-dom'
 import { FormRow, FormRowSelect, SubmitBtn } from '../components'
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants'
+import { useQuery } from '@tanstack/react-query'
 
-export const loader = async ({ params }) => {
-  try {
-    const { data } = await customFetch.get(`/jobs/${params.id}`)
-    // console.log(data)
-    return data
-  } catch (error) {
-    toast.error(error?.response?.data?.msg)
-    return error
+const singJobQuery = (id) => {
+  return {
+    queryKey: ['job', id],
+    queryFn: async () => {
+      const { data } = await customFetch.get(`/jobs/${id}`)
+      return data
+    },
   }
 }
 
-export const action = async ({ request, params }) => {
-  const formData = await request.formData()
-  const data = Object.fromEntries(formData)
-
-  try {
-    await customFetch.patch(`/jobs/${params.id}`, data)
-    toast.success('This job has been updated')
-    return redirect('/dashboard/all-jobs')
-  } catch (error) {
-    toast.error(error?.response?.data?.msg)
-    return error
+export const loader =
+  (queryClient) =>
+  async ({ params }) => {
+    try {
+      await queryClient.ensureQueryData(singJobQuery(params.id))
+      return params.id
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+      return error
+    }
   }
-}
+
+export const action =
+  (queryClient) =>
+  async ({ request, params }) => {
+    const formData = await request.formData()
+    const data = Object.fromEntries(formData)
+
+    try {
+      await customFetch.patch(`/jobs/${params.id}`, data)
+      queryClient.invalidateQueries(['jobs'])
+      toast.success('This job has been updated')
+      return redirect('/dashboard/all-jobs')
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+      return error
+    }
+  }
 
 const EditJob = () => {
-  const { job } = useLoaderData()
+  const id = useLoaderData()
+
+  const {
+    data: { job },
+  } = useQuery(singJobQuery(id))
   return (
     <Wrapper>
       <Form className='form' method='POST'>
