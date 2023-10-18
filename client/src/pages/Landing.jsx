@@ -1,10 +1,9 @@
-import { Link, useOutletContext } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import Wrapper from '../assets/wrappers/LandingPage'
 import main from '../assets/images/joblane.svg'
 
 const Landing = () => {
-  const user = useOutletContext()
-  console.log(user)
+
   return (
     <Wrapper>
       <nav>

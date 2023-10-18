@@ -43,7 +43,7 @@ app.use(mongoSanitize())
 app.use('/api/v1/jobs', authenticatedUser, jobRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', authenticatedUser, userRouter)
-
+//deployment
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'))
 })
