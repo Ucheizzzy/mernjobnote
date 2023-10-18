@@ -1,9 +1,8 @@
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/LandingPage'
 import main from '../assets/images/joblane.svg'
 
 const Landing = () => {
-
   return (
     <Wrapper>
       <nav>
@@ -24,8 +23,8 @@ const Landing = () => {
           </p>
           {/* come back to this for conditional rendering */}
 
-          <Link to={user ? '/dashboard' : '/login'} className='btn'>
-            {user ? 'Dashboard' : ' Login / Register'}
+          <Link to='/login' className='btn'>
+            Login / Register
           </Link>
         </div>
 
