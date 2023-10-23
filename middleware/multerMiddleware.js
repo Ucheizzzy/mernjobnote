@@ -1,14 +1,24 @@
 import multer from 'multer'
+import DataParser from 'datauri/parser.js'
+import path from 'path'
+import { BadRequestError } from '../errors/customErrors.js'
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/uploads')
-  },
-  filename: (req, file, cb) => {
-    const filename = file.originalname
-    cb(null, filename)
-  },
-})
+const storage = multer.memoryStorage()
 
 const upload = multer({ storage })
+
+const parser = new DataParser()
+
+export const formatImage = (file) => {
+  const fileExtension = path.extname(file.originalname).toString()
+  if (
+    fileExtension !== '.png' &&
+    fileExtension !== '.jpg' &&
+    fileExtension !== '.jpeg'
+  ) {
+    throw new BadRequestError('Please enter an image and nothing elses')
+  }
+  return parser.format(fileExtension, file.buffer).content
+}
+
 export default upload
